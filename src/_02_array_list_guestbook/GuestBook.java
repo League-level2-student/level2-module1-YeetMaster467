@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GuestBook implements ActionListener {
@@ -14,11 +15,13 @@ public class GuestBook implements ActionListener {
 	JPanel panel = new JPanel();
 	JButton addName = new JButton("Add Name");
 	JButton viewNames = new JButton("View Names");
+	JButton emptyNames = new JButton("Empty Names");
 	ArrayList<String> names = new ArrayList<String>();
 	
 	public void showWindow() {
 		panel.add(addName);
 		panel.add(viewNames);
+		panel.add(emptyNames);
 		frame.add(panel);
 		
 		frame.pack();
@@ -29,6 +32,7 @@ public class GuestBook implements ActionListener {
 		
 		addName.addActionListener(this);
 		viewNames.addActionListener(this);
+		emptyNames.addActionListener(this);
 		
 		frame.setVisible(true);
 	}
@@ -43,6 +47,26 @@ public class GuestBook implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton buttonPressed = (JButton) e.getSource();
+		
+		if(buttonPressed.equals(viewNames)) {
+			if(names.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "List contains no names :(");
+			} else {
+				JOptionPane.showMessageDialog(null, names);
+			}
+		} else if(buttonPressed.equals(addName)) {
+			String n = JOptionPane.showInputDialog("Enter Name to Add");
+			names.add(n);
+			JOptionPane.showMessageDialog(null, "Name added sucsessfully :)");
+		} else if(buttonPressed.equals(emptyNames)) {
+			int r = JOptionPane.showConfirmDialog(buttonPressed, "Are you sure you want to delete all names?", null, JOptionPane.YES_NO_OPTION);
+			if(r==0) {
+				names.removeAll(names);
+				JOptionPane.showMessageDialog(null, "All names have been deleted.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Nothing has been deleted.");
+			}
+		}
 		
 	}
 	
